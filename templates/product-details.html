@@ -1,0 +1,393 @@
+{% extends "base.html" %}
+{% load static %}
+{% load social_share %}
+{% load gallery %}
+
+{% block title %}
+Basicleine - product details
+{% endblock title %}
+
+{% block content %}
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area product_bread">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb_content">
+          <ul>
+            <li><a href="{% url 'home' %}">home</a></li>
+            <li>/</li>
+            <li>product details</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--product details start-->
+<div class="product_details">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-md-5">
+        <div class="product-details-tab">
+          <div id="img-1" class="zoomWrapper single-zoom">
+            <a href="#">
+              <img id="zoom1" src="{{ single_product.first_image_url }}"
+                data-zoom-image="{{ single_product.first_image_url }}" alt="big-1">
+            </a>
+          </div>
+          <div class="single-zoom-thumb">
+            <ul class="s-tab-zoom owl-carousel single-product-active" id="gallery_01">
+              <li>
+                <a href="#" class="elevatezoom-gallery active" data-update=""
+                  data-image="{{ single_product.first_image_url }}"
+                  data-zoom-image="{{ single_product.first_image_url }}">
+                  <img src="{{ single_product.first_image_url }}" alt="zo-th-{{ gallery.id }}" />
+                </a>
+              </li>
+              {% for gallery in product_gallery %}
+              <li>
+                <a href="#" class="elevatezoom-gallery active" data-update="" data-image="{{ gallery.image.url }}"
+                  data-zoom-image="{{ gallery.image.url }}">
+                  <img src="{{ gallery.image.url }}" alt="zo-th-{{ gallery.id }}" />
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7 col-md-7">
+        <div class="product_d_right">
+          <form action="{% url 'add_to_cart' single_product.slug %}" id="form_add_to_cart" method="POST">
+            <h1>{{ single_product.product_name }}</h1>
+            <div class="rating-star">
+              <span>
+                <i class="fa fa-star{% if single_product.average_review < 0.5 %}-o{% elif single_product.average_review >= 0.5 and single_product.average_review < 1 %}-half-o{% endif %}"
+                  aria-hidden="true"></i>
+                <i class="fa fa-star{% if single_product.average_review < 1.5 %}-o{% elif single_product.average_review >= 1.5 and single_product.average_review < 2 %}-half-o{% endif %}"
+                  aria-hidden="true"></i>
+                <i class="fa fa-star{% if single_product.average_review < 2.5 %}-o{% elif single_product.average_review >= 2.5 and single_product.average_review < 3 %}-half-o{% endif %}"
+                  aria-hidden="true"></i>
+                <i class="fa fa-star{% if single_product.average_review < 3.5 %}-o{% elif single_product.average_review >= 3.5 and single_product.average_review < 4 %}-half-o{% endif %}"
+                  aria-hidden="true"></i>
+                <i class="fa fa-star{% if single_product.average_review < 4.5 %}-o{% elif single_product.average_review >= 4.5 and single_product.average_review < 5 %}-half-o{% endif %}"
+                  aria-hidden="true"></i>
+                <span>{{ single_product.count_review }} reviews</span>
+              </span>
+            </div>
+            <div class="modal_price">
+              {% if single_product.sale_price %}
+              <span class="new_price">LE{{ single_product.sale_price|floatformat:2 }}</span>
+              <span class="old_price">LE{{ single_product.price|floatformat:2 }}</span>
+              {% else %}
+              <span class="new_price">LE{{ single_product.price|floatformat:2 }}</span>
+              {% endif %}
+            </div>
+            <div class="product_desc">
+              <p>{{single_product.description }}</p>
+            </div>
+            <div class="product_variant color">
+              <h3>color</h3>
+              <select class="niceselect_option" id="color" name="color" required>
+                {% for color in colors %}
+                <option value="{{ color.variation_value|lower }}">{{ color.variation_value|capfirst }}</option>
+                {% endfor %}
+
+              </select>
+            </div>
+            <div class="product_variant size">
+              <h3>size</h3>
+              <select class="niceselect_option" id="size" name="size" required>
+                {% for size in sizes %}
+                <option value="{{ size.variation_value|lower }}">{{ size.variation_value|capfirst }}</option>
+                {% endfor %}
+
+              </select>
+            </div>
+            <div class="product_variant quantity">
+              <label>quantity</label>
+              <input min="1" max="10" value="1" type="number" name="quantity" id="quantity">
+              <button class="button" type="submit">add to cart</button>
+            </div>
+            <div class=" product_d_action">
+              <ul>
+                <li>
+                  <a data-url="{% url 'add_to_wishlist' single_product.id %}" class="add-to-wishlist"
+                    title="Add to wishlist">
+                    {% check_product_in_wishlist single_product.id as test %}
+                    {% if test %}
+                    <i class="fa fa-heart" id="wishlist-true-{{ single_product.id }}" style="color: rgb(9, 255, 0);"
+                      aria-hidden="true">
+                    </i>
+                    {% else %}
+                    <i class="fa fa-heart" style="color:red" id="wishlist-false-{{ single_product.id }}"
+                      aria-hidden="true">
+                    </i>
+                    {% endif %}
+                    Add to Wish List
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </form>
+          <div class="priduct_social">
+            <h3>Share on:</h3>
+            <ul>
+              <li>{% post_to_facebook object_or_url '<i class="fa fa-facebook"></i>' %}</li>
+              <li>{% post_to_twitter 'text' object_or_url '<i class="fa fa-twitter"></i>' %}</li>
+              <li>
+                {% save_to_pinterest object_or_url %}
+                {% add_pinterest_script %}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--product details end-->
+
+<!--product info start-->
+<div class="product_d_info">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="product_d_inner">
+          <div class="product_info_button">
+            <ul class="nav" role="tablist">
+              <li>
+                <a class="active" data-toggle="tab" href="#sheet" role="tab" aria-controls="sheet"
+                  aria-selected="false">More info</a>
+              </li>
+              <li>
+                <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews"
+                  aria-selected="false">Reviews</a>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="sheet" role="tabpanel">
+              {% if compositions %}
+              <div class="product_d_table">
+                <form action="#">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td class="first_child">Compositions</td>
+                        <td>Polyester</td>
+                      </tr>
+                      {% for composition in compositions %}
+                      <tr>
+                        <td class="first_child">{{ composition.key }}</td>
+                        <td>{{ composition.value }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </form>
+              </div>
+              {% endif %}
+              <div class="product_info_content">
+                <p>{{single_product.description }}</p>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="reviews" role="tabpanel">
+              {% for review in reviews %}
+              <div class="product_info_content">
+                <p>{{ review.review }}</p>
+              </div>
+              <div class="product_info_inner">
+                <div class="product_ratting mb-10">
+                  <div class="rating-star">
+                    <span>
+                      <i class="fa fa-star{% if review.rating == 0.5 %}-half-o{% elif review.rating < 1 %}-o{% endif %}"
+                        aria-hidden="true"></i>
+                      <i class="fa fa-star{% if review.rating == 1.5 %}-half-o{% elif review.rating < 2 %}-o{% endif %}"
+                        aria-hidden="true"></i>
+                      <i class="fa fa-star{% if review.rating == 2.5 %}-half-o{% elif review.rating < 3 %}-o{% endif %}"
+                        aria-hidden="true"></i>
+                      <i class="fa fa-star{% if review.rating == 3.5 %}-half-o{% elif review.rating < 4 %}-o{% endif %}"
+                        aria-hidden="true"></i>
+                      <i class="fa fa-star{% if review.rating == 4.5 %}-half-o{% elif review.rating < 5 %}-o{% endif %}"
+                        aria-hidden="true"></i>
+                    </span>
+                  </div>
+                  <strong>Review Posting</strong>
+                  <p>{{ review.updated_at|date:"j/n/Y" }}</p>
+                </div>
+                <div class="product_demo">
+                  <strong>{{ review.user.first_name }} {{ review.user.last_name }}</strong>
+                  {% if review.rating == 0.5 or review.rating == 1 %}
+                  <p>Poor</p>
+                  {% elif review.rating == 1.5 or review.rating == 2 %}
+                  <p>Average</p>
+                  {% elif review.rating == 2.5 or review.rating == 3 %}
+                  <p>Good</p>
+                  {% elif review.rating == 3.5 or review.rating == 4 %}
+                  <p>Very Good</p>
+                  {% elif review.rating == 4.5 or review.rating == 5 %}
+                  <p>Excellent</p>
+                  {% endif %}
+                </div>
+              </div>
+              <hr>
+              {% endfor %}
+              <div class="product_review_form">
+                <form action="{% url 'submit_review' single_product.id %}" method="post">
+                  {% csrf_token %}
+                  <h2>Add a review </h2>
+                  <label>How do you rate this product?</label>
+                  <br>
+                  <div class="rate">
+                    <input type="radio" name="rating" id="rating10" value="5" required>
+                    <label for="rating10" title="5"></label>
+                    <input type="radio" name="rating" id="rating9" value="4.5" required>
+                    <label for="rating9" title="4.5" class="half"></label>
+                    <input type="radio" name="rating" id="rating8" value="4" required>
+                    <label for="rating8" title="4"></label>
+                    <input type="radio" name="rating" id="rating7" value="3.5" required>
+                    <label for="rating7" title="3.5" class="half"></label>
+                    <input type="radio" name="rating" id="rating6" value="3" required>
+                    <label for="rating6" title="3"></label>
+                    <input type="radio" name="rating" id="rating5" value="2.5" required>
+                    <label for="rating5" title="2.5" class="half"></label>
+                    <input type="radio" name="rating" id="rating4" value="2" required>
+                    <label for="rating4" title="2"></label>
+                    <input type="radio" name="rating" id="rating3" value="1.5" required>
+                    <label for="rating3" title="1.5" class="half"></label>
+                    <input type="radio" name="rating" id="rating2" value="1" required>
+                    <label for="rating2" title="1"></label>
+                    <input type="radio" name="rating" id="rating1" value="0.5" required>
+                    <label for="rating1" title="0.5" class="half"></label>
+                  </div>
+                  <br>
+                  Review Title
+                  <input type="text" name="subject" class="form-control" required>
+                  Your review
+                  <textarea name="review" class="form-control" rows="4"></textarea>
+                  {% if user.is_authenticated %}
+                  <button type="submit">Submit</button>
+                  <!-- <input type="submit" value="Submit Review" class="btn btn-primary"> -->
+                  {% else %}
+                  <p>You must be logged in to post a review. <span><a href="{% url 'register_and_login' %}">Login
+                        now</a></span></p>
+                  {% endif %}
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--product info end-->
+
+<!--product section area start-->
+<section class="product_section related_product">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="section_title">
+          <h2>Related Products</h2>
+          <p>Contemporary, minimal and modern designs embody the Lavish Alice handwriting</p>
+        </div>
+      </div>
+    </div>
+    <div class="product_area">
+      <div class="row">
+        <div class="product_carousel product_three_column4 owl-carousel">
+          {% for related_product in related_products %}
+          <div class="col-lg-3">
+            <div class="single_product">
+              <div class="product_thumb">
+                <a class="primary_img"
+                  href="{% url 'product_detail' related_product.category.slug related_product.slug %}"><img
+                    src="{{ related_product.first_image_url }}" alt="{{ related_product.product_name }}"></a>
+                <a class="secondary_img"
+                  href="{% url 'product_detail' related_product.category.slug related_product.slug %}"><img
+                    src="{{ related_product.second_image_url }}" alt="{{ related_product.product_name }}"></a>
+                {% if request.user.is_authenticated %}
+                <div class="product_action">
+                  <div class="hover_action">
+                    <a href="#"><i class="fa fa-plus"></i></a>
+                    <div class="action_button">
+                      <ul>
+                        <li>
+                          <a data-url="{% url 'add_to_wishlist' related_product.id %}" class="add-to-wishlist"
+                            title="Add to Wishlist">
+                            {% check_product_in_wishlist related_product.id as test %}
+                            {% if test %}
+                            <i class="fa fa-heart" id="wishlist-true-{{ related_product.id }}"
+                              style="color: rgb(9, 255, 0);" aria-hidden="true">
+                            </i>
+                            {% else %}
+                            <i class="fa fa-heart" style="color:red" id="wishlist-false-{{ related_product.id }}"
+                              aria-hidden="true">
+                            </i>
+                            {% endif %}
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+                <div class="quick_button">
+                  <a data-url="{% url 'product_quick_view' related_product.id %}" class="quick_view" data-toggle="modal"
+                    data-target="#modal_box_{{ related_product.id }}" title="quick_view"
+                    data-id="{{ related_product.id }}">
+                    + quick view
+                  </a>
+                </div>
+                {% if related_product.flag == "New" and related_product.discount != 0 %}
+                <div class="double_base">
+                  <div class="product_sale">
+                    <span>-{{ related_product.discount }}%</span>
+                  </div>
+                  <div class="label_product">
+                    <span>new</span>
+                  </div>
+                </div>
+                {% else %}
+                {% if related_product.flag == "New" %}
+                <div class="label_product">
+                  <span>new</span>
+                </div>
+                {% endif %}
+                {% if related_product.discount != 0 %}
+                <div class="product_sale">
+                  <span>-{{ related_product.discount }}%</span>
+                </div>
+                {% endif %}
+                {% endif %}
+              </div>
+              <div class="product_content">
+                <h3>
+                  <a href="{% url 'product_detail' related_product.category.slug related_product.slug %}">
+                    {{ related_product.product_name|truncatechars:27 }}
+                  </a>
+                </h3>
+                {% if related_product.sale_price != None %}
+                <span class="current_price">LE{{ related_product.sale_price|floatformat:2 }}</span>
+                <span class="old_price">LE{{ related_product.price|floatformat:2 }}</span>
+                {% else %}
+                <span class="current_price">LE{{ related_product.price|floatformat:2 }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--product section area end-->
+
+{% endblock content %}

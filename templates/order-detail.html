@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_tags %}
+
+{% block title %}
+BASICLINE - cart page
+{% endblock title %}
+
+{% block content %}
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area other_bread">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb_content">
+          <ul>
+            <li><a href="{% url 'home' %}">home</a></li>
+            <li>/</li>
+            <li>order-detail</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--shopping cart area start -->
+<div class="shopping_cart_area">
+  <div class="container">
+    <form action="#">
+      <div class="row">
+        <div class="col-12">
+          <div class="table_desc">
+            <div class="cart_page table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="product_thumb">Image</th>
+                    <th class="product_name">Product</th>
+                    <th class="product-price">Price</th>
+                    <th class="product_quantity">Quantity</th>
+                    <th class="product_total">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for order_product in order_products %}
+                  <tr>
+                    <td class="product_thumb">
+                      <a
+                        href="{% url 'product_detail' order_product.product.category.slug order_product.product.slug %}">
+                        <img src="{{ order_product.product.first_image_url }}"
+                          alt="{{ order_product.product.product_name }}">
+                      </a>
+                    </td>
+                    <td class="product_name">
+                      <a
+                        href="{% url 'product_detail' order_product.product.category.slug order_product.product.slug %}">
+                        {{ order_product.product.product_name }}
+                      </a>
+                      <p class="text-muted small">
+                        {% if order_product.variations.all %}
+                        {% for item in order_product.variations.all %}
+                        {{ item.variation_category|capfirst }} : {{ item.variation_value|capfirst }} <br>
+                        {% endfor %}
+                        {% endif %}
+                      </p>
+                    </td>
+                    {% if order_product.product.sale_price %}
+                    <td class="product-price">LE{{ order_product.product.sale_price|floatformat:2 }}</td>
+                    {% else %}
+                    <td class="product-price">LE{{ order_product.product.price|floatformat:2 }}</td>
+                    {% endif %}
+                    <td>
+                      <div class="row">
+                        <div class="input-group">
+                          <input type="text" class="form-control input-number text-center"
+                            value="{{ order_product.quantity }}" min="1" max="10" readonly>
+                        </div>
+                      </div>
+                    </td>
+
+                    {% if order_product.product.sale_price %}
+                    <td class="product_total" id="cart_item_sale_price_{{ order_product.id }}">
+                      LE{% multiply order_product.quantity order_product.product.sale_price %}
+                    </td>
+                    {% else %}
+                    <td class="product_total" id="cart_item_price_{{ order_product.id }}">
+                      LE{% multiply order_product.quantity order_product.product.price %}
+                    </td>
+                    {% endif %}
+
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </form>
+  </div>
+</div>
+<!--shopping cart area end -->
+
+{% endblock content %}

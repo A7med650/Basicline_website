@@ -1,0 +1,716 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load gallery %}
+
+{% block title %}
+BASIC LINE STYLE WEAR
+{% endblock title %}
+
+{% block content %}
+
+<!--slider area start-->
+<div class="slider_area slider_style owl-carousel">
+  <div class="single_slider" data-bgimg="{% static 'img/slider/slide1.jpg' %}">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-12">
+          <div class="slider_content content_one">
+            <img src="{% static 'img/slider/content.png' %}" alt="content">
+            <p>the wooboom spring collection is back at half price</p>
+            <a href="{% url 'store' %}">Discover Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="single_slider" data-bgimg="{% static 'img/slider/slide2.jpg' %}">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-12">
+          <div class="slider_content content_two">
+            <img src="{% static 'img/slider/content1.png' %}" alt="slider2">
+            <p>the wooboom jacket collection is back at half price</p>
+            <a href="{% url 'store' %}">Discover Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="single_slider" data-bgimg="{% static 'img/slider/slide3.png' %}">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-12">
+          <div class="slider_content content_three">
+            <img src="{% static 'img/slider/content2.png' %}" alt="slider3">
+            <p>the wooboom clothing summer collection is back at half price</p>
+            <a href="{% url 'store' %}">Discover Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--slider area end-->
+
+<!--product section area start-->
+<section class="product_section womens_product">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <div class="banner_area">
+          <div class="banner_thumb">
+            <a href="{% url 'women' %}">
+              <img src="{{ banners.image_women_url }}" alt="banner2">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <div class="section_title">
+          <h2>For Women’s Collection</h2>
+          <p>Contemporary, minimal and modern designs embody the Lavish Alice handwriting</p>
+        </div>
+        <div class="product_area">
+          <div class="product_tab_button">
+            <ul class="nav" role="tablist">
+              <li>
+                <a class="active" data-toggle="tab" href="#clothing" role="tab" aria-controls="clothing"
+                  aria-selected="true">{{ category_women.0 }}</a>
+              </li>
+              <li>
+                <a data-toggle="tab" href="#handbag" role="tab" aria-controls="handbag" aria-selected="false">
+                  {{ category_women.1 }}
+                </a>
+              </li>
+              <li>
+                <a data-toggle="tab" href="#shoes" role="tab" aria-controls="shoes" aria-selected="false">
+                  {{ category_women.2 }}
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="clothing" role="tabpanel">
+              <div class="product_container">
+                <div class="row product_column3">
+                  {% for product in products_women %}
+                  {% if product.category.category_name == category_women.0 %}
+                  <div class="col-lg-3">
+                    <div class="single_product">
+                      <div class="product_thumb">
+                        <a class="primary_img" href="{% url 'product_detail' product.category.slug product.slug %}"><img
+                            src="{{ product.first_image_url }}" alt="{{ product.product_name }}"></a>
+                        <a class="secondary_img"
+                          href="{% url 'product_detail' product.category.slug product.slug %}"><img
+                            src="{{ product.second_image_url }}" alt="{{ product.product_name }}"></a>
+                        {% if request.user.is_authenticated %}
+                        <div class="product_action">
+                          <div class="hover_action">
+                            <a href="#"><i class="fa fa-plus"></i></a>
+                            <div class="action_button">
+                              <ul>
+                                <li>
+                                  <a data-url="{% url 'add_to_wishlist' product.id %}" class="add-to-wishlist"
+                                    title="Add to Wishlist">
+                                    {% check_product_in_wishlist product.id as test %}
+                                    {% if test %}
+                                    <i class="fa fa-heart" id="wishlist-true-{{ product.id }}"
+                                      style="color: rgb(9, 255, 0);" aria-hidden="true">
+                                    </i>
+                                    {% else %}
+                                    <i class="fa fa-heart" style="color:red" id="wishlist-false-{{ product.id }}"
+                                      aria-hidden="true">
+                                    </i>
+                                    {% endif %}
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        {% endif %}
+                        <div class="quick_button">
+                          <a data-url="{% url 'product_quick_view' product.id %}" class="quick_view" data-toggle="modal"
+                            data-target="#modal_box_{{ product.id }}" title="quick_view" data-id="{{ product.id }}">
+                            + quick view
+                          </a>
+                        </div>
+                        {% if product.flag == "New" and product.discount != 0 %}
+                        <div class="double_base">
+                          <div class="product_sale">
+                            <span>-{{ product.discount }}%</span>
+                          </div>
+                          <div class="label_product">
+                            <span>new</span>
+                          </div>
+                        </div>
+                        {% else %}
+                        {% if product.flag == "New" %}
+                        <div class="label_product">
+                          <span>new</span>
+                        </div>
+                        {% endif %}
+                        {% if product.discount != 0 %}
+                        <div class="product_sale">
+                          <span>-{{ product.discount }}%</span>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                      </div>
+                      <div class="product_content">
+                        <h3><a href="{% url 'product_detail' product.category.slug product.slug %}">
+                            {{ product.product_name|truncatechars:27 }}
+                          </a>
+                        </h3>
+                        {% if product.sale_price != None %}
+                        <span class="current_price">LE{{ product.sale_price|floatformat:2 }}</span>
+                        <span class="old_price">LE{{ product.price|floatformat:2 }}</span>
+                        {% else %}
+                        <span class="current_price">LE{{ product.price|floatformat:2 }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="handbag" role="tabpanel">
+              <div class="product_container">
+                <div class="row product_column3">
+                  {% for product in products_women %}
+                  {% if product.category.category_name == category_women.1 %}
+                  <div class="col-lg-3">
+                    <div class="single_product">
+                      <div class="product_thumb">
+                        <a class="primary_img" href="{% url 'product_detail' product.category.slug product.slug %}"><img
+                            src="{{ product.first_image_url }}" alt="{{ product.product_name }}"></a>
+                        <a class="secondary_img"
+                          href="{% url 'product_detail' product.category.slug product.slug %}"><img
+                            src="{{ product.second_image_url }}" alt="{{ product.product_name }}"></a>
+                        {% if request.user.is_authenticated %}
+                        <div class="product_action">
+                          <div class="hover_action">
+                            <a href="#"><i class="fa fa-plus"></i></a>
+                            <div class="action_button">
+                              <ul>
+                                <li>
+                                  <a data-url="{% url 'add_to_wishlist' product.id %}" class="add-to-wishlist"
+                                    title="Add to Wishlist">
+                                    {% check_product_in_wishlist product.id as test %}
+                                    {% if test %}
+                                    <i class="fa fa-heart" id="wishlist-true-{{ product.id }}"
+                                      style="color: rgb(9, 255, 0);" aria-hidden="true">
+                                    </i>
+                                    {% else %}
+                                    <i class="fa fa-heart" style="color:red" id="wishlist-false-{{ product.id }}"
+                                      aria-hidden="true">
+                                    </i>
+                                    {% endif %}
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        {% endif %}
+                        <div class="quick_button">
+                          <a data-url="{% url 'product_quick_view' product.id %}" class="quick_view" data-toggle="modal"
+                            data-target="#modal_box_{{ product.id }}" title="quick_view" data-id="{{ product.id }}">
+                            + quick view
+                          </a>
+                        </div>
+                        {% if product.flag == "New" and product.discount != 0 %}
+                        <div class="double_base">
+                          <div class="product_sale">
+                            <span>-{{ product.discount }}%</span>
+                          </div>
+                          <div class="label_product">
+                            <span>new</span>
+                          </div>
+                        </div>
+                        {% else %}
+                        {% if product.flag == "New" %}
+                        <div class="label_product">
+                          <span>new</span>
+                        </div>
+                        {% endif %}
+                        {% if product.discount != 0 %}
+                        <div class="product_sale">
+                          <span>-{{ product.discount }}%</span>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                      </div>
+                      <div class="product_content">
+                        <h3><a href="{% url 'product_detail' product.category.slug product.slug %}">
+                            {{ product.product_name|truncatechars:27 }}
+                          </a>
+                        </h3>
+                        {% if product.sale_price != None %}
+                        <span class="current_price">LE{{ product.sale_price|floatformat:2 }}</span>
+                        <span class="old_price">LE{{ product.price|floatformat:2 }}</span>
+                        {% else %}
+                        <span class="current_price">LE{{ product.price|floatformat:2 }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="shoes" role="tabpanel">
+              <div class="product_container">
+                <div class="row product_column3">
+                  {% for product in products_women %}
+                  {% if product.category.category_name == category_women.2 %}
+                  <div class="col-lg-3">
+                    <div class="single_product">
+                      <div class="product_thumb">
+                        <a class="primary_img" href="{% url 'product_detail' product.category.slug product.slug %}"><img
+                            src="{{ product.first_image_url }}" alt="{{ product.product_name }}"></a>
+                        <a class="secondary_img"
+                          href="{% url 'product_detail' product.category.slug product.slug %}"><img
+                            src="{{ product.second_image_url }}" alt="{{ product.product_name }}"></a>
+                        {% if request.user.is_authenticated %}
+                        <div class="product_action">
+                          <div class="hover_action">
+                            <a href="#"><i class="fa fa-plus"></i></a>
+                            <div class="action_button">
+                              <ul>
+                                <li>
+                                  <a data-url="{% url 'add_to_wishlist' product.id %}" class="add-to-wishlist"
+                                    title="Add to Wishlist">
+                                    {% check_product_in_wishlist product.id as test %}
+                                    {% if test %}
+                                    <i class="fa fa-heart" id="wishlist-true-{{ product.id }}"
+                                      style="color: rgb(9, 255, 0);" aria-hidden="true">
+                                    </i>
+                                    {% else %}
+                                    <i class="fa fa-heart" style="color:red" id="wishlist-false-{{ product.id }}"
+                                      aria-hidden="true">
+                                    </i>
+                                    {% endif %}
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        {% endif %}
+                        <div class="quick_button">
+                          <a data-url="{% url 'product_quick_view' product.id %}" class="quick_view" data-toggle="modal"
+                            data-target="#modal_box_{{ product.id }}" title="quick_view" data-id="{{ product.id }}">
+                            + quick view
+                          </a>
+                        </div>
+                        {% if product.flag == "New" and product.discount != 0 %}
+                        <div class="double_base">
+                          <div class="product_sale">
+                            <span>-{{ product.discount }}%</span>
+                          </div>
+                          <div class="label_product">
+                            <span>new</span>
+                          </div>
+                        </div>
+                        {% else %}
+                        {% if product.flag == "New" %}
+                        <div class="label_product">
+                          <span>new</span>
+                        </div>
+                        {% endif %}
+                        {% if product.discount != 0 %}
+                        <div class="product_sale">
+                          <span>-{{ product.discount }}%</span>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                      </div>
+                      <div class="product_content">
+                        <h3><a href="{% url 'product_detail' product.category.slug product.slug %}">
+                            {{ product.product_name|truncatechars:27 }}
+                          </a>
+                        </h3>
+                        {% if product.sale_price != None %}
+                        <span class="current_price">LE{{ product.sale_price|floatformat:2 }}</span>
+                        <span class="old_price">LE{{ product.price|floatformat:2 }}</span>
+                        {% else %}
+                        <span class="current_price">LE{{ product.price|floatformat:2 }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+<!--product section area end-->
+
+<!--banner area start-->
+<section class="banner_section">
+  <div class="container-fluid">
+    <div class="row ">
+      <div class="col-12">
+        <div class="banner_conteiner"
+          style="background: url({{ banners.image_banner_url }}) no-repeat scroll center center/cover;">
+          <div class="banner_text">
+            <h1>Game Of Thrones Jaime<br> Lannister <br>Themed Sneakers</h1>
+            <a href="{% url 'store' %}">Discover Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--banner area end-->
+
+<!--product section area start-->
+<section class="product_section mens_product">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <div class="section_title">
+          <h2>For Men’s Collection</h2>
+          <p>Contemporary, minimal and modern designs embody the Lavish Alice handwriting</p>
+        </div>
+        <div class="product_area">
+          <div class="product_tab_button">
+            <ul class="nav" role="tablist">
+              <li>
+                <a class="active" data-toggle="tab" href="#clothing2" role="tab" aria-controls="clothing2"
+                  aria-selected="true">{{ category_man.0 }}</a>
+              </li>
+              <li>
+                <a data-toggle="tab" href="#handbag2" role="tab" aria-controls="handbag2" aria-selected="false">
+                  {{ category_man.1 }}
+                </a>
+              </li>
+              <li>
+                <a data-toggle="tab" href="#shoes2" role="tab" aria-controls="shoes2" aria-selected="false">
+                  {{ category_man.2 }}
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="clothing2" role="tabpanel">
+              <div class="product_container">
+                <div class="row product_column3">
+                  {% for product in products_man %}
+                  {% if product.category.category_name == category_man.0 %}
+                  <div class="col-lg-3">
+                    <div class="single_product">
+                      <div class="product_thumb">
+                        <a class="primary_img" href="{% url 'product_detail' product.category.slug product.slug %}"><img
+                            src="{{ product.first_image_url }}" alt="{{ product.product_name }}"></a>
+                        <a class="secondary_img"
+                          href="{% url 'product_detail' product.category.slug product.slug %}"><img
+                            src="{{ product.second_image_url }}" alt="{{ product.product_name }}"></a>
+                        {% if request.user.is_authenticated %}
+                        <div class="product_action">
+                          <div class="hover_action">
+                            <a href="#"><i class="fa fa-plus"></i></a>
+                            <div class="action_button">
+                              <ul>
+                                <li>
+                                  <a data-url="{% url 'add_to_wishlist' product.id %}" class="add-to-wishlist"
+                                    title="Add to Wishlist">
+                                    {% check_product_in_wishlist product.id as test %}
+                                    {% if test %}
+                                    <i class="fa fa-heart" id="wishlist-true-{{ product.id }}"
+                                      style="color: rgb(9, 255, 0);" aria-hidden="true">
+                                    </i>
+                                    {% else %}
+                                    <i class="fa fa-heart" style="color:red" id="wishlist-false-{{ product.id }}"
+                                      aria-hidden="true">
+                                    </i>
+                                    {% endif %}
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        {% endif %}
+                        <div class="quick_button">
+                          <a data-url="{% url 'product_quick_view' product.id %}" class="quick_view" data-toggle="modal"
+                            data-target="#modal_box_{{ product.id }}" title="quick_view" data-id="{{ product.id }}">
+                            + quick view
+                          </a>
+                        </div>
+                        {% if product.flag == "New" and product.discount != 0 %}
+                        <div class="double_base">
+                          <div class="product_sale">
+                            <span>-{{ product.discount }}%</span>
+                          </div>
+                          <div class="label_product">
+                            <span>new</span>
+                          </div>
+                        </div>
+                        {% else %}
+                        {% if product.flag == "New" %}
+                        <div class="label_product">
+                          <span>new</span>
+                        </div>
+                        {% endif %}
+                        {% if product.discount != 0 %}
+                        <div class="product_sale">
+                          <span>-{{ product.discount }}%</span>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                      </div>
+                      <div class="product_content">
+                        <h3><a href="{% url 'product_detail' product.category.slug product.slug %}">
+                            {{ product.product_name|truncatechars:27 }}
+                          </a>
+                        </h3>
+                        {% if product.sale_price != None %}
+                        <span class="current_price">LE{{ product.sale_price|floatformat:2 }}</span>
+                        <span class="old_price">LE{{ product.price|floatformat:2 }}</span>
+                        {% else %}
+                        <span class="current_price">LE{{ product.price|floatformat:2 }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="handbag2" role="tabpanel">
+              <div class="product_container">
+                <div class="row product_column3">
+                  {% for product in products_man %}
+                  {% if product.category.category_name == category_man.1 %}
+                  <div class="col-lg-3">
+                    <div class="single_product">
+                      <div class="product_thumb">
+                        <a class="primary_img" href="{% url 'product_detail' product.category.slug product.slug %}"><img
+                            src="{{ product.first_image_url }}" alt="{{ product.product_name }}"></a>
+                        <a class="secondary_img"
+                          href="{% url 'product_detail' product.category.slug product.slug %}"><img
+                            src="{{ product.second_image_url }}" alt="{{ product.product_name }}"></a>
+                        {% if request.user.is_authenticated %}
+                        <div class="product_action">
+                          <div class="hover_action">
+                            <a href="#"><i class="fa fa-plus"></i></a>
+                            <div class="action_button">
+                              <ul>
+                                <li>
+                                  <a data-url="{% url 'add_to_wishlist' product.id %}" class="add-to-wishlist"
+                                    title="Add to Wishlist">
+                                    {% check_product_in_wishlist product.id as test %}
+                                    {% if test %}
+                                    <i class="fa fa-heart" id="wishlist-true-{{ product.id }}"
+                                      style="color: rgb(9, 255, 0);" aria-hidden="true">
+                                    </i>
+                                    {% else %}
+                                    <i class="fa fa-heart" style="color:red" id="wishlist-false-{{ product.id }}"
+                                      aria-hidden="true">
+                                    </i>
+                                    {% endif %}
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        {% endif %}
+                        <div class="quick_button">
+                          <a data-url="{% url 'product_quick_view' product.id %}" class="quick_view" data-toggle="modal"
+                            data-target="#modal_box_{{ product.id }}" title="quick_view" data-id="{{ product.id }}">
+                            + quick view
+                          </a>
+                        </div>
+                        {% if product.flag == "New" and product.discount != 0 %}
+                        <div class="double_base">
+                          <div class="product_sale">
+                            <span>-{{ product.discount }}%</span>
+                          </div>
+                          <div class="label_product">
+                            <span>new</span>
+                          </div>
+                        </div>
+                        {% else %}
+                        {% if product.flag == "New" %}
+                        <div class="label_product">
+                          <span>new</span>
+                        </div>
+                        {% endif %}
+                        {% if product.discount != 0 %}
+                        <div class="product_sale">
+                          <span>-{{ product.discount }}%</span>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                      </div>
+                      <div class="product_content">
+                        <h3><a href="{% url 'product_detail' product.category.slug product.slug %}">
+                            {{ product.product_name|truncatechars:27 }}
+                          </a>
+                        </h3>
+                        {% if product.sale_price != None %}
+                        <span class="current_price">LE{{ product.sale_price|floatformat:2 }}</span>
+                        <span class="old_price">LE{{ product.price|floatformat:2 }}</span>
+                        {% else %}
+                        <span class="current_price">LE{{ product.price|floatformat:2 }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="shoes2" role="tabpanel">
+              <div class="product_container">
+                <div class="row product_column3">
+                  {% for product in products_man %}
+                  {% if product.category.category_name == category_man.2 %}
+                  <div class="col-lg-3">
+                    <div class="single_product">
+                      <div class="product_thumb">
+                        <a class="primary_img" href="{% url 'product_detail' product.category.slug product.slug %}"><img
+                            src="{{ product.first_image_url }}" alt="{{ product.product_name }}"></a>
+                        <a class="secondary_img"
+                          href="{% url 'product_detail' product.category.slug product.slug %}"><img
+                            src="{{ product.second_image_url }}" alt="{{ product.product_name }}"></a>
+                        {% if request.user.is_authenticated %}
+                        <div class="product_action">
+                          <div class="hover_action">
+                            <a href="#"><i class="fa fa-plus"></i></a>
+                            <div class="action_button">
+                              <ul>
+                                <li>
+                                  <a data-url="{% url 'add_to_wishlist' product.id %}" class="add-to-wishlist"
+                                    title="Add to Wishlist">
+                                    {% check_product_in_wishlist product.id as test %}
+                                    {% if test %}
+                                    <i class="fa fa-heart" id="wishlist-true-{{ product.id }}"
+                                      style="color: rgb(9, 255, 0);" aria-hidden="true">
+                                    </i>
+                                    {% else %}
+                                    <i class="fa fa-heart" style="color:red" id="wishlist-false-{{ product.id }}"
+                                      aria-hidden="true">
+                                    </i>
+                                    {% endif %}
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        {% endif %}
+                        <div class="quick_button">
+                          <a data-url="{% url 'product_quick_view' product.id %}" class="quick_view" data-toggle="modal"
+                            data-target="#modal_box_{{ product.id }}" title="quick_view" data-id="{{ product.id }}">
+                            + quick view
+                          </a>
+                        </div>
+                        {% if product.flag == "New" and product.discount != 0 %}
+                        <div class="double_base">
+                          <div class="product_sale">
+                            <span>-{{ product.discount }}%</span>
+                          </div>
+                          <div class="label_product">
+                            <span>new</span>
+                          </div>
+                        </div>
+                        {% else %}
+                        {% if product.flag == "New" %}
+                        <div class="label_product">
+                          <span>new</span>
+                        </div>
+                        {% endif %}
+                        {% if product.discount != 0 %}
+                        <div class="product_sale">
+                          <span>-{{ product.discount }}%</span>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                      </div>
+                      <div class="product_content">
+                        <h3><a href="{% url 'product_detail' product.category.slug product.slug %}">
+                            {{ product.product_name|truncatechars:27 }}
+                          </a>
+                        </h3>
+                        {% if product.sale_price != None %}
+                        <span class="current_price">LE{{ product.sale_price|floatformat:2 }}</span>
+                        <span class="old_price">LE{{ product.price|floatformat:2 }}</span>
+                        {% else %}
+                        <span class="current_price">LE{{ product.price|floatformat:2 }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <div class="banner_area">
+          <div class="banner_thumb">
+            <a href="{% url 'man' %}"><img src="{{ banners.image_man_url }}" alt="banner_man"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--product section area end-->
+
+<!--blog section area start-->
+
+<!--Instagram area start-->
+<section class="instagram_area">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="section_title">
+          <h2>Follow us On Instagram</h2>
+          <p>Contemporary, minimal and modern designs embody the Lavish Alice handwriting</p>
+        </div>
+      </div>
+    </div>
+    <div class="instagram_home_block">
+      <div class="row">
+        <div class="instagram_wrapper instagram_column5 owl-carousel">
+          {% for instagram_image in instagram_images %}
+          <div class="col-lg-3">
+            <div class="single_instagram">
+              <a href="#"><img src="{{ instagram_image.image_url }}" alt="instagram-{{ instagram_image.id }}"></a>
+              <div class="instagram_icone">
+                <a class="instagram_pupop" href="{{ instagram_image.image_url }}"><i class="fa fa-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="col-12">
+          <div class="text_follow">
+            <a href="#">#Follow us on Instagram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Instagram area end-->
+
+{% endblock content %}

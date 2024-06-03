@@ -1,0 +1,286 @@
+/* 09. footer area css here */
+.footer_widgets{
+    @media #{$laptop-device}{
+       padding: 0 30px;
+    }
+}
+.footer_top {
+	border-bottom: 1px solid $grey_color;
+	padding-bottom: 92px;
+    @media #{$laptop-device}{
+       padding-bottom: 72px;
+    }
+    @media #{$desktop-device}{
+       padding-bottom: 80px;
+    }
+    @media #{$tablet-device}{
+       padding-bottom: 40px;
+    }
+    @media #{$large-mobile}{
+       padding-bottom: 34px;
+    }
+}
+.widgets_container{
+     @media #{$tablet-device}{
+       margin-bottom: 20px;
+    }
+    @media #{$large-mobile}{
+       margin-bottom: 25px;
+    }
+    &.contact_us{
+        @media #{$large-mobile}{
+           margin-bottom: 34px;
+        }
+    }
+    & h3{
+        font-size: 16px;
+        line-height: 22px;
+        text-transform: capitalize;
+        margin-bottom: 16px;
+        font-weight: 600;
+        color: $fonts_color2;
+        @media #{$tablet-device}{
+           margin-bottom: 8px;
+        }
+        @media #{$large-mobile}{
+           margin-bottom: 8px;
+        }
+    }
+}
+.footer_menu{
+    & ul{
+        & li{
+            & a{
+                display: block;
+                font-weight: 400;
+                line-height: 30px;
+                color: $fonts_color;
+                &:hover{
+                    color: $secondary_color;
+                }
+            }
+        }
+    }
+}
+
+.footer_contact{
+    & p{
+        margin-bottom: 0;
+        line-height: 30px;
+        & a{
+            &:hover{
+                color: $secondary_color;
+            }
+        }
+    }
+    & ul{
+        margin-top: 10px;
+        & li{
+            display: inline-block;
+            margin-right: 7px;
+            &:last-child{
+                margin-right: 0;
+            }
+            & a{
+                color: #b2b2b2;
+                font-size: 15px;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                border: 1px solid #e1e1e1;
+                background: #fff;
+                text-align: center;
+                border-radius: 50%;
+                display: block;
+                &:hover{
+                    background: $fonts_color2;
+                    color: $body-color;
+                    border-color: $fonts_color2;
+                }
+            }
+        }
+    }
+}
+
+
+.newleter-content{
+    & p{
+        line-height: 28px;
+        margin-bottom: 10px;
+    }
+    & form{
+        & input{
+            width: 100%;
+            padding: 0 20px;
+            border: 1px solid #e1e1e1;
+            height: 45px;
+            color: #cacaca;
+            margin-bottom: 10px;
+        }
+        & button{
+            background: $fonts_color2;
+            line-height: 45px;
+            padding: 0 10px;
+            margin-top: 7px;
+            color: $body-color;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            display: block;
+            width: 100%;
+            border: 0;
+            border-radius: 3px;
+             @include transition(.3s);
+            &:hover{
+                background: $secondary_color;
+            }
+        }
+    }
+}
+
+.mailchimp-error {
+	text-align: center;
+	color: green;
+}
+.mailchimp-success {
+	text-align: center;
+	color: green;
+    &.active{
+        margin-top: 20px;
+    }
+}
+
+
+.footer_custom_links{
+    text-align: right;
+    @media #{$large-mobile}{
+       text-align: center;
+    }
+    & ul{
+        & li{
+            display: inline-block;
+            padding-right: 30px;
+            @media #{$large-mobile}{
+               padding-right: 20px;
+            }
+            &:last-child{
+                margin-right: 0;
+            }
+            & a{
+                color: $fonts_color;
+                text-transform: capitalize;
+                &:hover{
+                    color:  $secondary_color;
+                }
+            }
+        }
+    }
+}
+
+
+.copyright_area{
+    @media #{$large-mobile}{
+       text-align: center;
+    }
+    & p{
+        text-transform: capitalize;
+        @media #{$large-mobile}{
+           margin-bottom: 5px;
+        }
+        & a{
+            color: $secondary_color;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+
+.footer_bottom {
+	padding: 30px 0;
+    @media #{$large-mobile}{
+       padding: 20px 0;
+    }
+}
+
+/*home five css here*/
+.footer_widgets.fotter_five {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+    z-index: 999;
+    & .footer_top{
+        padding-top: 75px;
+        @media #{$large-mobile}{
+           padding-top: 54px;
+        }
+    }
+}
+
+.footer_show_button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    & > a{
+        height: 50px;
+        line-height: 50px;
+        padding: 0 40px;
+        text-align: center;
+        background: $fonts_color2;
+        color: $body-color;
+        border-radius: 3px;
+        display: inline-block;
+        
+        &:hover{
+            background: $secondary_color;
+        }
+        &:not([href]):not([tabindex]){
+            color: $body-color;
+        }
+        & i{
+            margin-left: 5px;
+        }
+    }
+}
+
+.footer_widgets_inner{
+    & .widgets_container{
+        text-align: left;
+    }
+    max-height: 0;
+    @include transition(.4s);
+    border-top: 1px solid $grey_color;
+    &.open{
+        max-height: 500px;
+        background: #fff;
+         @media #{$tablet-device}{
+            max-height: 350px;
+             overflow: auto;
+        }
+         @media #{$large-mobile}{
+            max-height: 300px;
+             overflow: auto;
+        }
+    }
+}
+
+
+/*home six css here*/
+.footer_six{
+    padding:  0 120px;
+    @media #{$laptop-device}{
+        padding:  0 30px;
+    }
+    @media #{$desktop-device}{
+        padding:  0 30px;
+    }
+    @media #{$tablet-device}{
+        padding:  0 20px;
+    }
+    @media #{$large-mobile}{
+        padding:  0 0;
+    }
+}

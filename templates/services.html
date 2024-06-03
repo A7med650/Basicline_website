@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+BASICLINE-our services
+{% endblock title %}
+
+{% block content %}
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area other_bread">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb_content">
+          <ul>
+            <li><a href="index.html">home</a></li>
+            <li>/</li>
+            <li>our services</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--services img area-->
+<div class="srrvices_gallery">
+  <div class="container">
+    <div class="row">
+      {% for service in services %}
+      <div class="col-lg-4 col-md-6">
+        <div class="single_services">
+          <div class="services_thumb">
+            <img src="{{ service.image_url }}" alt="">
+          </div>
+          <div class="services_content">
+            <h3>{{ service.title }}</h3>
+            <p>{{ service.content }}</p>
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

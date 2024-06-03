@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Basicline- about us
+{% endblock title %}
+
+{% block content %}
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area other_bread">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb_content">
+          <ul>
+            <li><a href="{% url 'home' %}">home</a></li>
+            <li>/</li>
+            <li>about us</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--about section area -->
+<div class="about_section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <div class="about_content">
+          <h1>Welcome To Reid Store!</h1>
+          <p> Quibusdam perspiciatis pariatur magnam ducimus excepturi error libero provident animi
+            laboriosam maiores ad explicabo ea laudantium nostrum dolor distinctio, quas fugiat
+            doloribus, sit, possimus obcaecati ab quo vel commodi eum. Laudantium libero, voluptate
+            rerum sunt hic,</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse numquam blanditiis quos, fuga,
+            aspernatur doloribus expedita, soluta dolore cumque.</p>
+          <div class="view__work">
+            <a href="#">view work </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <div class="about_thumb">
+          <img src="{% static 'img/about/about1.jpg' %}" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--about section end-->
+
+<!--counterup area -->
+<div class="counterup_section">
+  <div class="container">
+    <div class="row">
+      {% for card in cards %}
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="single_counterup">
+          <div class="counter_img">
+            <img src="{{ card.image_url }}" alt="">
+          </div>
+          <div class="counter_info">
+            <h2 class="counter_number">{{ card.number }}</h2>
+            <p>{{ card.title }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!--counterup end-->
+
+<!--about progress bar -->
+
+<!--about progress bar end -->
+
+{% endblock content %}

@@ -1,0 +1,318 @@
+/* 12. about page css here */
+
+
+/*welcome about section css here*/
+.welcome_about_section{
+    margin-bottom: 94px;
+    @media #{$laptop-device}{
+        margin-bottom: 74px;
+    }
+    @media #{$desktop-device }{
+        margin-bottom: 74px;
+    }  
+    @media #{$tablet-device}{
+        margin-bottom: 55px;
+    }
+    @media #{$large-mobile}{
+        margin-bottom: 55px;
+    }
+}
+
+.welcome_about_inner{
+    text-align: center;
+    & img{
+        margin-bottom: 31px;
+        @media #{$large-mobile}{
+            margin-bottom: 20px;
+        }
+    }
+    & p{
+        font-size: 16px;
+        line-height: 30px;
+        padding: 0 70px;
+        margin-bottom: 27px;
+        @media #{$large-mobile}{
+            padding: 0;
+            font-size: 15px;
+            line-height: 27px;
+            margin-bottom: 18px;
+        }
+    }
+    & p.author{
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: $fonts_color2;
+        margin-bottom: 0;
+        line-height: 20px;
+        & span{
+            color: $fonts_color;
+        }
+    }
+}
+
+
+
+.welcome_eight{
+    margin-bottom: 67px;
+    @media #{$tablet-device}{
+        margin-bottom: 46px;
+    }
+    @media #{$large-mobile}{
+        margin-bottom: 50px;
+    }
+}
+/*welcome about section css end*/
+
+
+/* 12. about page css here */
+.header_about{
+    border-bottom: 1px solid $grey_color;
+}
+
+.about_section {
+	padding-bottom: 60px;
+    &.section_two{
+        padding: 0 194px;
+        & .about_thumb{
+            text-align: center;
+        }
+        & .about_content{
+            margin-bottom: 25px;
+        }
+    }
+}
+
+
+.about_content{
+     @media #{$tablet-device}{
+        margin-bottom: 30px;
+    }
+     @media #{$large-mobile}{
+        margin-bottom: 30px;
+    }
+    & h1{
+        font-weight: 500;
+        line-height: 30px;
+        text-transform: capitalize;
+        color: $fonts_color2;
+        font-size: 30px;
+        margin-bottom: 19px;
+         @media #{$large-mobile}{
+            font-size: 20px;
+            line-height: 22px;
+            margin-bottom: 10px;
+        }
+    }
+    & p{
+        color: $fonts_color;
+        font-size: 15px;
+        line-height: 30px;
+        margin-bottom: 22px;
+        @media #{$large-mobile}{
+            font-size: 13px;
+            line-height: 24px;
+            margin-bottom: 11px;
+        }
+    }
+}
+
+
+.view__work {
+    @media #{$large-mobile}{
+        margin-top: 18px;
+    }
+    & a{
+        color: $fonts_color2;
+        border: 1px solid $fonts_color2;
+        height: 40px;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 18px;
+        padding: 10px 15px;
+        display: inline-block;
+        text-transform: uppercase; 
+        &:hover{
+            background: $secondary_color;
+            color: $body-color;
+            border-color: $secondary_color; 
+        }
+        @media #{$large-mobile}{
+            padding: 7px 9px;
+            height: 33px;
+            font-size: 12px;
+        }
+    }
+	
+}
+
+
+.counterup_section{
+    padding-bottom: 30px;
+}
+.counter_img {
+	margin-right: 20px;
+    @media #{$large-mobile}{
+        margin-right: 10px;
+    }
+}
+.single_counterup {
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	background: #f3f3f3;
+	padding: 88px 0 80px;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	margin-bottom: 30px;
+}
+.about_section.section_two {
+	padding: 25px 20px 18px;
+}
+.counter_info{
+    & h2{
+       font-size: 30px;
+        font-weight: 500;
+        color: $fonts_color2;
+        margin-bottom: 5px;
+        line-height: 33px;
+        margin-bottom: 0; 
+        @media #{$large-mobile}{
+            font-size: 22px;
+            line-height: 30px;
+        }
+    }
+    & p{
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: 500;
+        color: $fonts_color;
+        margin-bottom: 0;
+        line-height: 24px;
+        @media #{$large-mobile}{
+            font-size: 11px
+        }
+    }
+}
+
+
+.about_progressbar {
+	padding-bottom: 60px;
+    @media #{$desktop-device}{
+        padding-bottom: 70px;
+    }
+    @media #{$tablet-device}{
+        padding-bottom: 70px;
+    }
+    &.about_prog{
+        background-color: $secondary_color; 
+	    border-radius: 3px;
+        & span{
+            &.progress_persent{
+                position: absolute;
+                left: 50px;
+                text-transform: uppercase;
+            }
+        }
+    }
+    &.porgress_two{
+        padding: 5px 20px 35px;
+    }
+}
+
+
+
+
+.progressbar_inner{
+    @media #{$large-mobile}{
+        margin-bottom: 40px;
+    }
+    & h2{
+        font-size: 25px;
+        color: $fonts_color2;
+        margin-bottom: 40px;
+        font-weight: 400;
+        line-height: 18px;
+        @media #{$tablet-device}{
+            font-size: 21px;
+            margin-bottom: 27px;
+        }
+        @media #{$large-mobile}{
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+    }
+	
+}
+.progress_skill {
+	position: relative;
+	margin-bottom: 40px;
+    @media #{$tablet-device}{
+        margin-bottom: 33px;
+    }
+    &:last-child{
+        margin-bottom: 0;
+    }
+    & span{
+        &.progress_discount{
+            position: absolute;
+            left: -2px;
+            background:  $fonts_color2;
+            border-radius: 100%;
+            border: 3px solid $secondary_color; 
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            top: 50%;
+            -webkit-transform: translatey(-50%);
+            transform: translatey(-50%);
+            text-align: center;
+            line-height: 35px;
+            z-index: 9;
+        }
+    }
+    & .progress-bar{
+        background: $secondary_color; 
+        
+    }
+}
+
+
+
+.progress_skill.one{
+    & .progress-bar{
+        width: 60%;
+    }
+}
+
+.progress_skill.two{
+    & .progress-bar{
+        width: 90%;
+    }
+}
+
+
+.progress_skill.three{
+    & .progress-bar{
+        width: 70%;
+    }
+}
+
+.progress_skill.four{
+    & .progress-bar{
+        width: 80%;
+    }
+}
+/*about page css end*/
+
+
+
+
+
+
+
+
+
+
+

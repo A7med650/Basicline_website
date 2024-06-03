@@ -1,0 +1,69 @@
+/* 23. shipping css here */
+.shipping_carousel{
+    padding-bottom: 51px;
+    border-bottom: 1px solid $grey_color;
+    margin-bottom: 92px;
+    @media #{$laptop-device}{
+        margin-bottom: 72px;
+    }
+    @media #{$desktop-device}{
+        padding-bottom: 51px;
+        margin-bottom: 72px;
+    }
+    @media #{$tablet-device}{
+        padding-bottom: 55px;
+        margin-bottom: 53px;
+    }
+    @media #{$large-mobile}{
+        padding-bottom: 55px;
+        margin-bottom: 54px;
+    }
+    
+    & .col-lg-2{
+        flex: 0 0 100%;
+        width: 100%;
+    }
+    & .shipping_thumb{
+        & a{
+            display: block;
+            & img{
+                width: inherit;
+                margin: 0 auto;
+            }
+        }
+        
+    }
+}
+.shipping_content{
+    & a{
+        color: $fonts_color4;
+        font-size: 14px;
+        display: block;
+        font-weight: 600;
+        line-height: 22px;
+        text-transform: capitalize;
+        padding-top: 15px;
+        &:hover{
+            color: $fonts_color2;
+        }
+    }
+}
+
+.single_shipping {
+	text-align: center;
+}
+
+
+
+
+.shipping_nine{
+    & .shipping_carousel{
+        padding-top: 25px;
+    }
+}
+
+
+
+
+
+

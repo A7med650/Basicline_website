@@ -1,0 +1,197 @@
+/* 21. portfolio page css here */
+.portfolio_button {
+	text-align: center;
+	margin-bottom: 35px;
+	background:  $grey_color;
+	padding: 35px 0;
+    @media #{$large-mobile}{
+        padding: 35px 0 28px;
+    }
+    & button{
+        color: $fonts_color;
+        background: $white;
+        border-right: 2px solid $grey_color;
+        line-height: 45px;
+        padding: 0 30px;
+        font-size: 13px;
+        text-transform: capitalize;
+        font-weight: 700;
+        display: inline-block;
+        border: none;
+        cursor: pointer;
+        @include transition(.3s);
+        &:hover{
+            background: $secondary_color;
+            color: $white;
+        }
+        &.active{
+            background: $secondary_color;
+            color: $white;
+        }
+        @media #{$large-mobile}{
+            margin-bottom: 7px;
+            margin-left: 5px;
+            line-height: 38px;
+            padding: 0 26px;
+        }
+    }
+}
+.portfolio_thumb{
+    position: relative;
+    &::before{
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 100%;
+        background: $secondary_color;
+        @include transition(.3s);
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(0);
+    }
+}
+
+.portfolio_popup {
+	position: absolute;
+	top: 50%;
+	left: 45%;
+	text-align: center;
+	font-size: 18px;
+    @include transition(.3s);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50%);
+    & a{
+        width: 50px;
+	    height: 50px;
+        line-height: 50px;
+        display: block;
+        color: $fonts_color;
+        transform: scale(0);
+        border-radius: 50%;
+        background: $grey_color;
+        &:hover{
+            color: $white;
+            background: $black;
+        }
+
+    }
+   
+}
+
+.single_portfolio_inner {
+	margin-bottom: 30px;
+    overflow: hidden;
+    &:hover{
+        & .portfolio_thumb{
+            &::before{
+                opacity: 0.5;
+                visibility: visible;
+                transform: scale(1);
+            }
+        }
+        & .portfolio_popup{
+            opacity: 1;
+            visibility: visible;
+            & a{
+                transform: scale(1);
+            }
+        }
+        & .portfolio__content{
+            left: 30px;
+            opacity: 1;
+            visibility: visible;
+                
+            @media #{$tablet-device}{
+                left: 13px;
+            }
+            @media #{$large-mobile}{
+                left: 13px;
+            }
+        }
+    }
+    
+}
+
+
+
+.portfolio__content {
+	position: absolute;
+	bottom: 30px;
+    left: -85px;
+    opacity: 0;
+    visibility: hidden;
+    @include transition(.3s);
+    @media #{$tablet-device}{
+        bottom: 20px;
+    }
+    @media #{$large-mobile}{
+        bottom: 20px;
+    }
+    & h3{
+        font-size: 20px;
+        color: $white;
+        margin-bottom: 0;
+        text-transform: capitalize;
+        @media #{$tablet-device}{
+            font-size: 15px;
+        }
+        @media #{$large-mobile}{
+            font-size: 14px;
+        }
+        & a{
+            color: $white;
+            &:hover{
+                color: $fonts_color2;
+            }
+        }
+    }
+}
+
+
+.portfolio_section_area {
+	margin-bottom: 30px;
+}
+
+
+.blog_details{
+    &.portfolio_details {
+	    margin-bottom: 59px;
+        @media #{$tablet-device}{
+            margin-bottom: 49px;
+        }
+        @media #{$large-mobile}{
+            margin-bottom: 49px;
+        }
+        & .comments_form{
+            margin-bottom: 0;
+        }
+    }
+}
+
+.portfolio_widgets{
+    & .footer_top{
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+    & .footer_top_inner{
+        padding: 55px 0 52px;
+        border-top: 1px solid $grey_color;
+        border-bottom: 1px solid $grey_color;
+        @media #{$desktop-device}{
+            padding: 55px 0 60px;
+        }
+        @media #{$tablet-device}{
+            padding: 55px 0 39px;
+        }
+         @media #{$large-mobile}{
+            padding: 55px 0 35px;
+        }
+    }
+}
+
+
+
+
+
+

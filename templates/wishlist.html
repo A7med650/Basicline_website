@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+BASICLINE- wishlist
+{% endblock title %}
+
+{% block content %}
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area other_bread">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb_content">
+          <ul>
+            <li><a href="{% url 'home' %}">home</a></li>
+            <li>/</li>
+            <li>wishlist</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--wishlist area start -->
+<div class="wishlist_area">
+  <div class="container">
+    <form action="#">
+      <div class="row">
+        <div class="col-12">
+          <div class="table_desc wishlist">
+            <div class="cart_page table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="product_remove">Delete</th>
+                    <th class="product_thumb">Image</th>
+                    <th class="product_name">Product</th>
+                    <th class="product-price">Price</th>
+                    <th class="product-discount">Discount</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  {% for w in wishlist %}
+                  <tr id="{{ w.id }}">
+                    <td class="product_remove">
+                      <a class="remove-item" data-url="{% url 'remove_wishlist_item' w.id %}">X</a>
+                    </td>
+                    <td class="product_thumb">
+                      <a href="{% url 'product_detail' w.product.category.slug w.product.slug %}"><img
+                          src="{{ w.product.first_image_url }}" alt="{{ w.product.product_name }}"></a>
+                    </td>
+                    <td class="product_name">
+                      <a href="{% url 'product_detail' w.product.category.slug w.product.slug %}">
+                        {{ w.product.product_name }}
+                      </a>
+                    </td>
+                    <td class="product-price">LE{{ w.product.price|floatformat:2 }}</td>
+                    {% if w.product.discount %}
+                    <td class="product-discount">{{ w.product.discount }}%</td>
+                    {% else %}
+                    <td class="product-discount">---</td>
+                    {% endif %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+<!--wishlist area end -->
+
+{% endblock content %}

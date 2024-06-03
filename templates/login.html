@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+BASICLINE- login
+{% endblock title %}
+
+{% block content %}
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area other_bread">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb_content">
+          <ul>
+            <li><a href="{% url 'home' %}">home</a></li>
+            <li>/</li>
+            <li>login</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--breadcrumbs area end-->
+
+
+<!-- customer login start -->
+<div class="customer_login">
+  <div class="container">
+    {% if messages %}
+    {% for message in messages %}
+    <div id="message" class="container">
+      <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error: {% endif %}
+        {{ message }}
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="row">
+      <!--login area start-->
+      <div class="col-lg-6 col-md-6">
+        <div class="account_form">
+          <h2>login</h2>
+          <form action="{% url 'register_and_login' %}" method="POST">
+            {% csrf_token %}
+            <p>
+              <label for="username_email">Username or email <span>*</span></label>
+              <input type="text" name="email" id="username_email" required>
+            </p>
+            <p>
+              <label for="password_login">Passwords <span>*</span></label>
+              <input type="password" name="password" id="password_login" required>
+            </p>
+            <div class="login_submit">
+              <a href="{% url 'forgotpassword' %}">Lost your password?</a>
+              <input type="submit" value="login" name="login">
+              <!-- <button type="submit">login</button> -->
+            </div>
+          </form>
+        </div>
+      </div>
+      <!--login area start-->
+
+      <!--register area start-->
+      <div class="col-lg-6 col-md-6">
+        <div class="account_form register">
+          <h2>Register</h2>
+          <form action="{% url 'register_and_login' %}" method="POST">
+            {% csrf_token %}
+            <p>
+              <label for="first_name">First Name <span>*</span></label>
+              <input type="text" name="first_name" id="first_name" required>
+            </p>
+            <p>
+              <label for="last_name"> Last Name <span>*</span></label>
+              <input type="text" name="last_name" id="last_name" required>
+            </p><br>
+            <p>
+              <label for="username"> Username <span>*</span></label>
+              <input type="test" name="username" id="username" required>
+            </p><br>
+            <p>
+              <label for="email">Email address<span>*</span></label>
+              <input type="email" name="email" id="email" required>
+            </p><br>
+            <p>
+              <label for="password">Passwords <span>*</span></label>
+              <input type="password" name="password" id="password" required>
+            </p>
+            <div class="login_submit">
+              <input type="submit" value="Register" name="register">
+              <!-- <button type="submit">Register</button> -->
+            </div>
+          </form>
+        </div>
+      </div>
+      <!--register area end-->
+    </div>
+  </div>
+</div>
+<!-- customer login end -->
+
+{% endblock content %}

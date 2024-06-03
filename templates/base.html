@@ -1,0 +1,911 @@
+{% load static %}
+{% load gallery %}
+{% load social_share %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>{% block title %}{% endblock title %}</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
+
+  <!-- Plugins CSS -->
+  <link rel="stylesheet" href="{% static 'css/plugins.css' %}">
+
+  <!-- Main Style CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- jQuery !-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> </script>
+  <!-- jQuery UI !-->
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+</head>
+
+<body>
+  <!-- Main Wrapper Start -->
+
+  <!--Offcanvas menu area start-->
+  <div class="offcanvas_menu">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="canvas_open"><a href="javascript:void(0)"><em class="ion-navicon"></em></a></div>
+          <div class="offcanvas_menu_wrapper">
+            <div class="canvas_close">
+              <a href="javascript:void(0)"><i class="ion-android-close"></i></a>
+            </div>
+            <div class="welcome_text"> </div>
+            <div class="top_right"> </div>
+            <div class="search_bar">
+              <form action="{% url 'search' %}" method="post">
+                {% csrf_token %}
+                <input placeholder="Search entire store here..." id="query" name="query" type="text">
+                <button type="submit"><i class="ion-ios-search-strong"></i></button>
+              </form>
+            </div>
+            <div class="cart_area">
+              {% if not request.user.is_authenticated %}
+              <div class="middel_links">
+                <ul>
+                  <li><a href="{% url 'register_and_login' %}">Login</a></li>
+                  <li>/</li>
+                  <li><a href="{% url 'register_and_login' %}">Register</a></li>
+                </ul>
+              </div>
+              {% else %}
+              <p>Welcome {{ user.first_name }}</p>
+              {% endif %}
+              <div class="cart_link">
+                <a href="{% url 'cart' %}" class="cart_counter">
+                  <i class="fa fa-shopping-basket"></i>
+                  {% if cart_count > 1 %}
+                  {{ cart_count }} items
+                  {% else %}
+                  {{ cart_count }} item
+                  {% endif %}
+                </a>
+              </div>
+            </div>
+            {% if info.phone_number %}
+            <div class="contact_phone">
+              <p>Call Free Support: <a href="tel:{{ info.phone_number }}">{{ info.phone_number }}</a></p>
+            </div>
+            {% endif %}
+            <div id="menu" class="text-left ">
+              <ul class="offcanvas_main_menu">
+                <li class="menu-item-has-children active">
+                  <a href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="mega_items"><a href="{% url 'store' %}">Categories</a>
+                  <ul class="mega_menu">
+                    <li>
+                      <ul>
+                        {% for link in links %}
+                        <li><a href="{% url 'products_by_category' link.slug %}">{{ link.category_name }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </li>
+                    <li class="menu-item-has-children">
+                      <a href="#">other Pages</a>
+                      <ul class="sub-menu">
+                        <li><a href="{% url 'cart' %}">cart</a></li>
+                        <li><a href="{% url 'checkout' %}">Checkout</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                {% if request.user.is_authenticated %}
+                <li class="menu-item-has-children">
+                  <a href="{% url 'dashboard' %}">my account</a>
+                </li>
+                {% endif %}
+                <li class="menu-item-has-children">
+                  <a href="{% url 'about_us' %}">About Us</a>
+                </li>
+                <li class="menu-item-has-children">
+                  <a href="{% url 'contact_us' %}"> Contact Us</a>
+                </li>
+              </ul>
+            </div>
+            <div class="offcanvas_footer">
+              {% if info.email %}
+              <span>
+                <a href="#">
+                  <i class="fa fa-envelope-o"></i>
+                  {{ info.email }}
+                </a>
+              </span>
+              {% endif %}
+              <ul>
+                {% if info.facebook_link %}
+                <li class="facebook"><a href="{{ info.facebook_link }}" target="_blank"><i
+                      class="fa fa-facebook"></i></a></li>
+                {% endif %}
+                {% if info.twitter_link %}
+                <li class="twitter"><a href="{{ info.twitter_link }}" target="_blank"><i class="fa fa-twitter"></i></a>
+                </li>
+                {% endif %}
+                {% if info.google_link %}
+                <li class="google-plus"><a href="{{ info.google_link }}" target="_blank"><i
+                      class="fa fa-google-plus"></i></a></li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Offcanvas menu area end-->
+
+  <!--header area start-->
+  <header class="header_area">
+    <!--header top start-->
+
+    <!--header top start-->
+
+    <!--header middel start-->
+    <div class="header_middel">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-3 col-md-5">
+            <div class="logo">
+              <a href="{% url 'home' %}"><img src="{% static 'img/logo/logo.png' %}" alt="logo"></a>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-12">
+            <div class="search_bar">
+              <form action="{% url 'search' %}" method="post">
+                {% csrf_token %}
+                <input placeholder="Search entire store here..." id="query1" name="query" type="text">
+                <button type="submit"><i class="ion-ios-search-strong"></i></button>
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 offset-md-6 offset-lg-0">
+            <div class="cart_area">
+              {% if not request.user.is_authenticated %}
+              <div class="middel_links">
+                <ul>
+                  <li><a href="{% url 'register_and_login' %}">Login</a></li>
+                  <li>/</li>
+                  <li><a href="{% url 'register_and_login' %}">Register</a></li>
+                </ul>
+              </div>
+              {% else %}
+              <p>Welcome {{ user.first_name }}</p>
+              {% endif %}
+              <div class="cart_link">
+                <a href="{% url 'cart' %}" class="cart_counter">
+                  <i class="fa fa-shopping-basket"></i>
+                  {% if cart_count > 1 %}
+                  {{ cart_count }} items
+                  {% else %}
+                  {{ cart_count }} item
+                  {% endif %}
+                </a>
+                <!--mini cart-->
+                <div class="mini_cart">
+                  <div id="mini_cart_id">
+                    {% for cart_item in cart_items %}
+                    <div class="cart_item bottom" id="mini-cart-remove-{{ cart_item.id }}">
+                      <div class="cart_img">
+                        <a href="{% url 'product_detail' cart_item.product.category.slug cart_item.product.slug %}">
+                          <img src="{{ cart_item.product.first_image_url }}" alt="{{ cart_item.product.product_name }}">
+                        </a>
+                      </div>
+                      <div class="cart_info">
+                        <a href="{% url 'product_detail' cart_item.product.category.slug cart_item.product.slug %}">
+                          {{ cart_item.product.product_name }}
+                        </a>
+                        <p class="text-muted small">
+                          {% if cart_item.variations.all %}
+                          {% for item in cart_item.variations.all %}
+                          {{ item.variation_category|capfirst }} : {{ item.variation_value|capfirst }} <br>
+                          {% endfor %}
+                          {% endif %}
+                        </p>
+                        {% if cart_item.product.sale_price %}
+                        <span>LE{{ cart_item.product.sale_price|floatformat:2 }}</span>
+                        {% else %}
+                        <span>LE{{ cart_item.product.price|floatformat:2 }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <div class="cart__table">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td class="text-left">Sub-Total :</td>
+                          <td class="text-right" id="mini-cart-sub-total">LE{{ total|floatformat:2 }}</td>
+                        </tr>
+                        <tr>
+                          <td class="text-left">Total :</td>
+                          <td class="text-right" id="mini-cart-total">LE{{ grand_total|floatformat:2 }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="cart_button view_cart">
+                    <a href="{% url 'cart' %}">View Cart</a>
+                  </div>
+                  <div class="cart_button checkout">
+                    <a href="{% url 'checkout' %}">Checkout</a>
+                  </div>
+                </div>
+                <!--mini cart end-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--header middel end-->
+
+    <!--header bottom satrt-->
+    <div class="header_bottom sticky-header">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12">
+            <div class="header_static">
+              <div class="main_menu_inner">
+                <div class="main_menu">
+                  <nav>
+                    <ul>
+                      <li class="active"><a href="{% url 'home' %}">Home </a>
+                      </li>
+                      <li class="mega_items"><a href="{% url 'store' %}">Categories <i class="fa fa-angle-down"></i></a>
+                        <ul class="mega_menu">
+                          <li>
+                            <a href="{% url 'store' %}">collection</a>
+                            <ul>
+                              {% for link in links %}
+                              <li><a href="{% url 'products_by_category' link.slug %}">{{ link.category_name }}</a></li>
+                              {% endfor %}
+                            </ul>
+                          </li>
+                          <li><a href="#">other Pages</a>
+                            <ul>
+                              <li><a href="{% url 'cart' %}">cart</a></li>
+                              <li><a href="{% url 'checkout' %}">Checkout</a></li>
+                              {% if request.user.is_authenticated %}
+                              <li><a href="{% url 'dashboard' %}">my account</a></li>
+                              {% endif %}
+                            </ul>
+                          </li>
+                          <li class="banner_menu">
+                            <a href="{% url 'store' %}">
+                              <img src="{% static 'img/bg/banner1.jpg' %}" alt="banner">
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a href="#">pages <i class="fa fa-angle-down"></i></a>
+                        <ul class="sub_menu pages">
+                          <li><a href="{% url 'service' %}">services</a></li>
+                          {% if not request.user.is_authenticated %}
+                          <li><a href="{% url 'register_and_login' %}">login</a></li>
+                          {% endif %}
+                        </ul>
+                      </li>
+                      <li><a href="{% url 'about_us' %}">About us</a></li>
+                      <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+              {% if info.phone_number %}
+              <div class="contact_phone">
+                <p>Call Free Support: <a href="tel:{{ info.phone_number }}">{{ info.phone_number }}</a></p>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--header bottom end-->
+  </header>
+  <!--header area end-->
+
+  {% block content %}
+
+  {% endblock content %}
+
+  <!--footer area start-->
+  <footer class="footer_widgets">
+    <div class="footer_top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2 col-md-6 col-sm-6 col-6">
+            <div class="widgets_container">
+              <h3>Information</h3>
+              <div class="footer_menu">
+                <ul>
+                  <li><a href="{% url 'about_us' %}">About Us</a></li>
+                  <li><a href="#">Delivery Information</a></li>
+                  <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                  <li><a href="#">Terms & Conditions</a></li>
+                  <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                  <li><a href="#">Returns</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-6 col-sm-6 col-6">
+            <div class="widgets_container">
+              <h3>Extras</h3>
+              <div class="footer_menu">
+                <ul>
+                  <li><a href="#">Brands</a></li>
+                  <li><a href="#">Gift Certificates</a></li>
+                  <li><a href="#">Affiliate</a></li>
+                  <li><a href="#">Specials</a></li>
+                  <li><a href="{% url 'contact_us' %}">Site Map</a></li>
+                  <li><a href="my-account.html">My Account</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="widgets_container contact_us">
+              <h3>Contact Us</h3>
+              <div class="footer_contact">
+                <p>Address:Your address goes here.</p>
+                <p>Phone: <a href="tel:01008125450">01008125450</a> </p>
+                <p>Email: abdallahesmaill16@gmail.com</p>
+                <ul>
+                  <li><a href="#" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                  <li><a href="#" title="google-plus"><i class="fa fa-google-plus"></i></a></li>
+                  <li><a href="#" title="facebook"><i class="fa fa-facebook"></i></a></li>
+                  <li><a href="#" title="youtube"><i class="fa fa-youtube"></i></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="widgets_container newsletter">
+              <h3>Join Our Newsletter Now</h3>
+              <div class="newleter-content">
+                <p>Exceptional quality. Ethical factories. Sign up to enjoy free EGYPT. shipping and
+                  returns on your first order.</p>
+                <div class="subscribe_form">
+                  <form id="mc-form" class="mc-form footer-newsletter">
+                    <input id="mc-email" type="email" autocomplete="off"
+                      placeholder="Enter you email address here..." />
+                    <button id="mc-submit">Subscribe !</button>
+                  </form>
+                  <!-- mailchimp-alerts Start -->
+                  <div class="mailchimp-alerts text-centre">
+                    <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
+                    <div class="mailchimp-success"></div><!-- mailchimp-success end -->
+                    <div class="mailchimp-error"></div><!-- mailchimp-error end -->
+                  </div><!-- mailchimp-alerts end -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--footer area end-->
+
+    <!-- modal area start-->
+    {% for product in products %}
+    <div class="modal fade" id="modal_box_{{ product.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="modal_body">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                  <div class="modal_tab">
+                    <div class="tab-content product-details-large">
+                      <div class="tab-pane fade show active" id="tab1" role="tabpanel">
+                        <div class="modal_tab_img">
+                          <a href="{{ product.first_image_url }}" target="_blank"><img
+                              src="{{ product.first_image_url }}" alt="{{ product.product_name }}"></a>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="tab2" role="tabpanel">
+                        <div class="modal_tab_img">
+                          <a href="{% images product 0 %}" target="_blank"><img src="{% images product 0 %}"
+                              alt="{{ product.product_name }}"></a>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="tab3" role="tabpanel">
+                        <div class="modal_tab_img">
+                          <a href="{% images product 1 %}" target="_blank"><img src="{% images product 1 %}"
+                              alt="{{ product.product_name }}"></a>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="tab4" role="tabpanel">
+                        <div class="modal_tab_img">
+                          <a href="{% images product 2 %}" target="_blank"><img src="{% images product 2 %}"
+                              alt="{{ product.product_name }}"></a>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="tab5" role="tabpanel">
+                        <div class="modal_tab_img">
+                          <a href="{% images product 3 %}" target="_blank"><img src="{% images product 3 %}"
+                              alt="{{ product.product_name }}"></a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal_tab_button">
+                      <ul class="nav product_navactive owl-carousel" role="tablist">
+                        <li>
+                          <a class="nav-link active" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1"
+                            aria-selected="false">
+                            <img src="{{ product.first_image_url }}" alt="{{ product.product_name }}">
+                          </a>
+                        </li>
+                        <li>
+                          <a class="nav-link" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2"
+                            aria-selected="false">
+                            <img src="{% images product 0 %}" alt="{{ product.product_name }}">
+                          </a>
+                        </li>
+                        <li>
+                          <a class="nav-link button_three" data-toggle="tab" href="#tab3" role="tab"
+                            aria-controls="tab3" aria-selected="false">
+                            <img src="{% images product 1 %}" alt="{{ product.product_name }}">
+                          </a>
+                        </li>
+                        <li>
+                          <a class="nav-link" data-toggle="tab" href="#tab4" role="tab" aria-controls="tab4"
+                            aria-selected="false">
+                            <img src="{% images product 2 %}" alt="{{ product.product_name }}">
+                          </a>
+                        </li>
+                        <li>
+                          <a class="nav-link" data-toggle="tab" href="#tab5" role="tab" aria-controls="tab5"
+                            aria-selected="false">
+                            <img src="{% images product 3 %}" alt="{{ product.product_name }}">
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12">
+                  <div class="modal_right">
+                    <div class="modal_title mb-10">
+                      <h2 id="product_name">{{ product.product_name }}</h2>
+                    </div>
+                    <div class="modal_price mb-10">
+                      {% if product.sale_price %}
+                      <span id="sale_price" class="new_price">LE{{ product.sale_price|floatformat:2 }}</span>
+                      <span id="price" class="old_price">LE{{ product.price|floatformat:2 }}</span>
+                      {% else %}
+                      <span id="price" class="new_price">LE{{ product.price|floatformat:2 }}</span>
+                      {% endif %}
+                    </div>
+                    <div id="product_description" class="modal_description mb-15">
+                      <p>{{ product.description }}</p>
+                    </div>
+                    <div class="variants_selects">
+                      <div class="modal_add_to_cart">
+                        <form action="{% url 'add_to_cart' product.slug %}" class="form_add_to_cart_popup" method="POST"
+                          id="form_add_to_cart_id_{{ product.id }}" data-id="{{ product.id }}">
+                          <div class="variants_size">
+                            <h2>size</h2>
+                            <select id="size-select_{{ product.id }}" class="select_option picker" name="size" required>
+                              {% size product as action %}
+                              {% for s in action %}
+                              <option value="{{ s.variation_value|lower }}">{{ s.variation_value|capfirst }}
+                              </option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                          <div class="variants_color">
+                            <h2>color</h2>
+                            <select id="color-select_{{ product.id }}" class="select_option picker" name="color"
+                              required>
+                              {% color product as action1 %}
+                              {% for c in action1 %}
+                              <option value="{{ c.variation_value|lower }}">{{ c.variation_value|capfirst }}
+                              </option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                          <input min="1" max="10" value="1" type="number" name="quantity"
+                            id="quantity-popup_{{ product.id }}">
+                          <button type="submit" class="btn-quick-view" id="btn-add-to-cart">add to cart</button>
+                        </form>
+                        <p id="success-add-to-cart-{{ product.id }}"></p>
+                      </div>
+                    </div>
+                    <div class="modal_social">
+                      <h2>Share this product</h2>
+                      <ul>
+                        {% url 'product_detail' product.category.slug product.slug as facebook_url %}
+                        {% url 'product_detail' product.category.slug product.slug as twitter_url %}
+                        {% url 'product_detail' product.category.slug product.slug as pinterest_url %}
+                        <li class="facebook">
+                          {% post_to_facebook facebook_url '<i class="fa fa-facebook"></i>' %}
+                        </li>
+                        <li class="twitter">
+                          {% post_to_twitter 'text' twitter_url '<i class="fa fa-twitter"></i>' %}
+                        </li>
+                        <li class="pinterest">
+                          {% save_to_pinterest pinterest_url %}
+                          {% add_pinterest_script %}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <!-- modal area start-->
+
+  </footer>
+
+  <!-- Plugins JS -->
+  <script src="{% static 'js/plugins.js' %}"></script>
+  <!-- Main JS -->
+  <script src="{% static 'js/main.js' %}"></script>
+
+
+  <!-- start search autocomplete sidebar -->
+  <script>
+    $(function () {
+      $("#query").autocomplete({
+        source: "{% url 'search_auto' %}",
+        select: function (event, ui) { //item selected
+          AutoCompleteSelectHandler(event, ui)
+        },
+        minLength: 2,
+      });
+    });
+    function AutoCompleteSelectHandler(event, ui) {
+      var selectedObj = ui.item;
+    }
+  </script>
+  <!-- end search autocomplete sidebar -->
+
+  <!-- start search autocomplete navbar -->
+  <script>
+    $(function () {
+      $("#query1").autocomplete({
+        source: "{% url 'search_auto' %}",
+        select: function (event, ui) { //item selected
+          AutoCompleteSelectHandler(event, ui)
+        },
+        minLength: 2,
+      });
+    });
+    function AutoCompleteSelectHandler(event, ui) {
+      var selectedObj = ui.item;
+    }
+  </script>
+  <!-- end search autocomplete navbar -->
+
+  <!-- start add to cart -->
+  <script>
+    var frm = $('#form_add_to_cart');
+    frm.submit(function (e) {
+      e.preventDefault();
+      $.ajax({
+        type: frm.attr('method'),
+        url: frm.attr('action'),
+        dataType: 'json',
+        data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          'color': $("#color").val(),
+          'size': $("#size").val(),
+          'quantity': $("#quantity").val(),
+        },
+        success: function (response) {
+          if (response.cart_count > 1) {
+            $(".cart_counter").empty().append('<i class="fa fa-shopping-basket"></i>').append(response.cart_count).append(" items");
+          }
+          else {
+            $(".cart_counter").empty().append('<i class="fa fa-shopping-basket"></i>').append(response.cart_count).append(" item");
+          }
+          $("#mini-cart-sub-total").empty().append("LE").append((response.total).toFixed(2))
+          $("#mini-cart-total").empty().append("LE").append((response.grand_total).toFixed(2))
+          if (!response.is_cart_item_exists) {
+            var p_sale_price;
+            var p_price;
+            var p_html;
+            if (response.product_sale_price == null) {
+              p_price = response.product_price
+              p_html = `<span>LE${p_price.toFixed(2)}</span>`
+            }
+            else {
+              p_sale_price = response.product_sale_price
+              p_html = `<span>LE${p_sale_price.toFixed(2)}</span>`
+            }
+            var color_mini_cart = $("#color").val();
+            var size_mini_cart = $("#size").val();
+            var html = `
+            <div class="cart_item bottom">
+              <div class="cart_img">
+                <a href="/store/category/${response.category_slug}/${response.product_slug}/">
+                  <img src="${response.first_image_url}" alt="${response.product_name}">
+                </a>
+              </div>
+              <div class="cart_info">
+                <a href="/store/category/${response.category_slug}/${response.product_slug}/">
+                  ${response.product_name}
+                </a>
+                <p class="text-muted small">
+                  Color : ${color_mini_cart} <br>
+                  Size : ${size_mini_cart}
+                </p>
+                ${p_html}
+              </div>
+            </div>
+            `
+            $("#mini_cart_id").append(html)
+          }
+        },
+        error: function (jqXhr, textStatus, errorMessage) {
+          console.log("Error add to cart")
+        }
+      })
+    })
+  </script>
+  <!-- end add to cart -->
+
+  <!-- start add to cart -->
+  <script>
+    var test_id;
+    $(".quick_view").click(function () {
+      $.ajax({
+        url: $(this).attr("data-url"),
+        dataType: 'json',
+        success: function (response) {
+          test_id = response.product_pk;
+        }
+      })
+    })
+    var frm1 = $('.form_add_to_cart_popup');
+    frm1.submit(function (e) {
+      e.preventDefault();
+      url = $("#form_add_to_cart_id_" + test_id).attr("action");
+      $.ajax({
+        url: url,
+        data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          'color': $("#color-select_" + test_id).val(),
+          'size': $("#size-select_" + test_id).val(),
+          'quantity': $("#quantity-popup_" + test_id).val(),
+        },
+        dataType: 'json',
+        type: frm1.attr('method'),
+        success: function (response) {
+          if (response.cart_count > 1) {
+            $(".cart_counter").empty().append('<i class="fa fa-shopping-basket"></i>').append(response.cart_count).append(" items");
+          }
+          else {
+            $(".cart_counter").empty().append('<i class="fa fa-shopping-basket"></i>').append(response.cart_count).append(" item");
+          }
+          $("#mini-cart-sub-total").empty().append("LE").append((response.total).toFixed(2))
+          $("#mini-cart-total").empty().append("LE").append((response.grand_total).toFixed(2))
+          console.log("test number")
+          if ($('#success-add-to-cart-' + test_id).css('display') == "none") {
+            $('#success-add-to-cart-' + test_id).css('display', 'block')
+            console.log("in if condition")
+          }
+          console.log($('#success-add-to-cart-' + test_id).css('display'))
+          $('#success-add-to-cart-' + test_id).html("Thank you!.")
+          setTimeout(function () {
+            $('#success-add-to-cart-' + test_id).fadeOut();
+          }, 5000);
+          if (!response.is_cart_item_exists) {
+            var p_sale_price;
+            var p_price;
+            var p_html;
+            if (response.product_sale_price == null) {
+              p_price = response.product_price
+              p_html = `<span>LE${p_price.toFixed(2)}</span>`
+            }
+            else {
+              p_sale_price = response.product_sale_price
+              p_html = `<span>LE${p_sale_price.toFixed(2)}</span>`
+            }
+            var color_mini_cart = $("#color-select_" + test_id).val();
+            var size_mini_cart = $("#size-select_" + test_id).val();
+            var html = `
+            <div class="cart_item bottom">
+              <div class="cart_img">
+                <a href="/store/category/${response.category_slug}/${response.product_slug}/">
+                  <img src="${response.first_image_url}" alt="${response.product_name}">
+                </a>
+              </div>
+              <div class="cart_info">
+                <a href="/store/category/${response.category_slug}/${response.product_slug}/">
+                  ${response.product_name}
+                </a>
+                <p class="text-muted small">
+                  Color : ${color_mini_cart} <br>
+                  Size : ${size_mini_cart}
+                </p>
+                ${p_html}
+              </div>
+            </div>
+            `
+            $("#mini_cart_id").append(html)
+          }
+        }
+      })
+    })
+  </script>
+  <!-- end add to cart -->
+
+  <!-- start delete item from cart.html -->
+  <script>
+    $(".delete-item").click(function () {
+      var _vm = $(this);
+      $.ajax({
+        url: $(this).attr("data-url"),
+        dataType: 'json',
+        success: function (response) {
+          var id = "#" + response.cart_item_id;
+          var mini_cart_remove_id = "#mini-cart-remove-" + response.cart_item_id;
+          $(id).remove();
+          $(mini_cart_remove_id).remove();
+          $(".cart_total").empty().append("LE").append((response.total).toFixed(2));
+          $(".cart_tax").empty().append("<span>Flat Rate:</span> LE").append((response.tax).toFixed(2));
+          $(".cart_grand_total").empty().append("LE").append((response.grand_total).toFixed(2));
+          $("#mini-cart-sub-total").empty().append("LE").append((response.total).toFixed(2))
+          $("#mini-cart-total").empty().append("LE").append((response.grand_total).toFixed(2))
+          if (response.cart_count > 1) {
+            $(".cart_counter").empty().append('<i class="fa fa-shopping-basket"></i>').append(response.cart_count).append(" items");
+          }
+          else {
+            $(".cart_counter").empty().append('<i class="fa fa-shopping-basket"></i>').append(response.cart_count).append(" item");
+          }
+        }
+      })
+    })
+  </script>
+  <!-- end delete item from cart.html -->
+
+  <!-- start increment item from cart.html -->
+  <script>
+    $(".increment").click(function () {
+      $.ajax({
+        url: $(this).attr("data-url"),
+        dataType: 'json',
+        success: function (response) {
+          var id = "#input_" + response.cart_item_id;
+          $(id).attr("value", response.cart_item_quantity);
+          if (response.cart_count > 1) {
+            $(".cart_counter").empty().append('<i class="fa fa-shopping-basket"></i>').append(response.cart_count).append(" items");
+          }
+          else {
+            $(".cart_counter").empty().append('<i class="fa fa-shopping-basket"></i>').append(response.cart_count).append(" item");
+          }
+          if (response.cart_item_sale_price != null) {
+            var id_sale_price = "#cart_item_sale_price_" + response.cart_item_id;
+            $(id_sale_price).empty().append("LE").append((response.cart_item_sale_price * response.cart_item_quantity).toFixed(2));
+          }
+          else {
+            var id_sale_price = "#cart_item_price_" + response.cart_item_id;
+            $(id_sale_price).empty().append("LE").append((response.cart_item_price * response.cart_item_quantity).toFixed(2));
+          }
+          $(".cart_total").empty().append("LE").append((response.total).toFixed(2));
+          $(".cart_tax").empty().append("<span>Flat Rate:</span> LE").append((response.tax).toFixed(2));
+          $(".cart_grand_total").empty().append("LE").append((response.grand_total).toFixed(2));
+          $("#mini-cart-sub-total").empty().append("LE").append((response.total).toFixed(2))
+          $("#mini-cart-total").empty().append("LE").append((response.grand_total).toFixed(2))
+        }
+      })
+    })
+  </script>
+  <!-- end increment item from cart.html -->
+
+  <!-- start decrement item from cart.html -->
+  <script>
+    $(".decrement").click(function () {
+      $.ajax({
+        url: $(this).attr("data-url"),
+        dataType: 'json',
+        success: function (response) {
+          if (response.check_delete != null) {
+            var mini_cart_remove_dec_id = "#mini-cart-remove-" + response.cart_item_id_delete;
+            var id = "#" + response.cart_item_id_delete;
+            $(id).remove();
+            $(mini_cart_remove_dec_id).remove();
+          }
+          else {
+            var id = "#input_" + response.cart_item_id;
+            $(id).attr("value", response.cart_item_quantity);
+            if (response.cart_item_sale_price != null) {
+              var id_sale_price = "#cart_item_sale_price_" + response.cart_item_id;
+              $(id_sale_price).empty().append("LE").append((response.cart_item_sale_price * response.cart_item_quantity).toFixed(2));
+            }
+            else {
+              var id_sale_price = "#cart_item_price_" + response.cart_item_id;
+              $(id_sale_price).empty().append("LE").append((response.cart_item_price * response.cart_item_quantity).toFixed(2));
+            }
+          }
+          if (response.cart_count > 1) {
+            $(".cart_counter").empty().append('<i class="fa fa-shopping-basket"></i>').append(response.cart_count).append(" items");
+          }
+          else {
+            $(".cart_counter").empty().append('<i class="fa fa-shopping-basket"></i>').append(response.cart_count).append(" item");
+          }
+          $(".cart_total").empty().append("LE").append((response.total).toFixed(2));
+          $(".cart_tax").empty().append("<span>Flat Rate:</span> LE").append((response.tax).toFixed(2));
+          $(".cart_grand_total").empty().append("LE").append((response.grand_total).toFixed(2));
+          $("#mini-cart-sub-total").empty().append("LE").append((response.total).toFixed(2))
+          $("#mini-cart-total").empty().append("LE").append((response.grand_total).toFixed(2))
+        }
+      })
+    })
+  </script>
+  <!-- end decrement item from cart.html -->
+
+  <script>
+    $(".add-to-wishlist").click(function () {
+      $.ajax({
+        url: $(this).attr("data-url"),
+        dataType: 'json',
+        success: function (response) {
+          var add_wishlist = "wishlist-true-" + response.product_pk;
+          var remove_wishlist = "wishlist-false-" + response.product_pk;
+          var j_add_wishlist = "#wishlist-true-" + response.product_pk;
+          var j_remove_wishlist = "#wishlist-false-" + response.product_pk;
+
+          if (document.getElementById(add_wishlist)) {
+            if (document.getElementById(add_wishlist).style.color == "rgb(9, 255, 0)") {
+              $(j_add_wishlist).attr("style", "color:red;")
+            }
+            else if (document.getElementById(add_wishlist).style.color == "red") {
+              $(j_add_wishlist).attr("style", "color:rgb(9, 255, 0);")
+            }
+          }
+          else if (document.getElementById(remove_wishlist)) {
+            if (document.getElementById(remove_wishlist).style.color == "red") {
+              $(j_remove_wishlist).attr("style", "color:rgb(9, 255, 0);")
+            }
+            else if (document.getElementById(remove_wishlist).style.color == "rgb(9, 255, 0)") {
+              $(j_remove_wishlist).attr("style", "color:red;")
+            }
+          }
+        }
+      })
+    })
+  </script>
+
+  <script>
+    $(".remove-item").click(function () {
+      $.ajax({
+        url: $(this).attr("data-url"),
+        dataType: 'json',
+        success: function (response) {
+          var wishlist_id = "#" + response.wishlist_id;
+          $(wishlist_id).remove();
+        }
+      })
+    })
+  </script>
+
+</body>
+
+</html>

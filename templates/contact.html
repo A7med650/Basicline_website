@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+BASIC- contact us
+{% endblock title %}
+
+{% block content %}
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area other_bread">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb_content">
+          <ul>
+            <li><a href="{% url 'home' %}">home</a></li>
+            <li>/</li>
+            <li>contact us</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--breadcrumbs area end-->
+
+<!--contact area start-->
+<div class="contact_area">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <div class="contact_message content">
+          <h3>contact us</h3>
+          <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum
+            est notare quam littera gothica, quam nunc putamus parum claram anteposuerit litterarum
+            formas human. qui sequitur mutationem consuetudium lectorum. Mirum est notare quam</p>
+          <ul>
+            {% if info.address %}
+            <li><i class="fa fa-fax"></i>{{ info.address }}</li>
+            {% endif %}
+            {% if info.email %}
+            <li><i class="fa fa-phone"></i> <a href="mailto:{{ info.email }}">{{ info.email }}</a></li>
+            {% endif %}
+            {% if info.phone_number %}
+            <li><i class="fa fa-envelope-o"></i>{{ info.phone_number }}</li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <div class="contact_message form">
+          <h3>Tell us your project</h3>
+          <form method="POST" action="{% url 'contact_us' %}">
+            {% csrf_token %}
+            <p>
+              <label for="your_name"> Your Name (required)</label>
+              <input name="name" id="your_name" placeholder="Name *" type="text" required>
+            </p>
+            <p>
+              <label for="email"> Your Email (required)</label>
+              <input name="email" id="email" placeholder="Email *" type="email" required>
+            </p>
+            <p>
+              <label for="subject"> Subject</label>
+              <input name="subject" id="subject" placeholder="Subject *" type="text" required>
+            </p>
+            <div class="contact_textarea">
+              <label for="message"> Your Message</label>
+              <textarea placeholder="Message *" id="message" name="message" class="form-control2" required></textarea>
+            </div>
+            <button type="submit"> Send</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--contact area end-->
+
+<!--contact map start-->
+<div class="contact_map">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="map-area">
+          <iframe id="googleMap" style="border: none;"
+            src="https://maps.google.com/maps?q=121%20King%20St%2C%20Melbourne%20VIC%203000%2C%20Australia&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--contact map end-->
+
+{% endblock content %}

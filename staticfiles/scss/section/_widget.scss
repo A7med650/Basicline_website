@@ -1,0 +1,105 @@
+/* 13. widget area css here */
+.product_categorie{
+    margin-bottom: 45px;
+    @media #{$desktop-device}{
+       margin-bottom: 39px;
+    }
+    @media #{$tablet-device}{
+       margin-bottom: 39px;
+    }
+    @media #{$large-mobile}{
+       margin-bottom: 39px;
+    }
+}
+
+.categorie_widget{
+    border: 1px solid $grey_color;
+    margin-top: 30px;
+    padding: 17px 30px 17px;
+    @media #{$tablet-device}{
+        margin-top: 0;
+       margin-bottom: 44px;
+    }
+    @media #{$large-mobile}{
+        margin-top: 0;
+        margin-bottom: 42px;
+    }
+    & ul{
+        padding-left: 13px;
+        & li{
+            line-height: 20px;
+            position: relative;
+            margin-bottom: 5px;
+            @media #{$desktop-device}{
+               margin-bottom: 6px;
+            }
+           
+            &:last-child{
+                margin-bottom: 0;
+            }
+            &::before{
+                position: absolute;
+                content: "";
+                width: 6px;
+                height: 6px;
+                background:$fonts_color;
+                border-radius: 50%;
+                top: 50%;
+                transform: translatey(-50%);
+                left: -13px;
+            }
+            & a{
+                color: $fonts_color;
+                font-size: 13px;
+                &:hover{
+                    color: $secondary_color2;
+                }
+            }
+        }
+    }
+}
+
+
+/* home two widget area css here*/
+.product_c_two{
+    margin-bottom: 39px;
+    & .section_title{
+        margin-bottom: 0;
+        border-bottom: 0;
+    }
+    & .categorie_widget{
+        padding: 20px 30px 20px;
+        margin-top: 0;
+        & ul{
+            & li{
+                display: inline-block;
+                width: 15%;
+                margin-right: 15px;
+                @media #{$tablet-device}{
+                   display: block;
+                    width: 100%;
+                }
+                 @media #{$large-mobile}{
+                   display: block;
+                      width: 100%;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
